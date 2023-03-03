@@ -8,6 +8,7 @@ Compiling
 In Linux and macOS, the exec.sh can compile the main.cpp executables, as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
 
 chmod +x exec.sh
+
 ./exec.sh
 
 According to the user computer system, -std=c++11 in exec.sh can be changeable.
