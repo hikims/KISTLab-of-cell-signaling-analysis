@@ -176,8 +176,36 @@ Multiple simulations: Root mean square error, coefficient variation, and bliss i
         		tm[z] = st_point;}
     	return 0;}   
 
+   	The reduction rate (reduction in functions.cpp) is calculated using the estimated mean (MEAN in functions.cpp) and 
+    standard deviation (VAR in functions.cpp) and makes a file for each inhibitor. 
+    The user has to be careful about the order of inhibitors. 
+    This open-source considers the order from single to combination inhibitor. 
+	After making a file of inhibition, the bliss index can be calculated using the file (bliss in functions.cpp).
 
-	Since the bliss index is calculated via inhibitors, the user has to choose the number of inhibitors (p). A protein is set as zero at a specific simulation time and estimates the mean and standard deviation for before and after inhibition while multiple simulations. The reduction rate (reduction in functions.cpp) is calculated using the estimated mean and standard deviation and makes a file for each inhibitor. The user has to be careful about the order of inhibitors. This open-source considers the order from single to combination inhibitor. After making a file of inhibition, the bliss index can be calculated using the file (bliss in functions.cpp).
+       	double reduction(double *data1, double *data2, int size){    
+    		double diff_avg[size];
+    		for(int i = 0; i < size; i++){
+        		diff_avg[i] = 0.0;
+        		diff_avg[i] = data1[i] - data2[i];}
+    		double avg1 = MEAN(data1, size);
+   			double avg2 = MEAN(data2, size);
+    		double temp = 1.0 - (avg2 / avg1);
+   	 	return temp;} 
+
+	Since the bliss index (bliss in functions.cpp) is calculated via inhibitors, the user has to choose the number of inhibitors (p). 
+ 	A protein is set as zero at a specific simulation time and estimates the mean (MEAN in functions.cpp) and 
+  	standard deviation (VAR in functions.cpp) for before and after inhibition while multiple simulations. 
+
+   		double bliss(double **data2, double *data1, int pro_size){       
+    		for(int i = 0; i < pro_size; i++){
+        			for(int j = 0; j < pro_size; j++){
+            		data2[i][j] = 0.0;
+          			if(j > i){
+             	 	int z = j + 6 * i - i * (i - 1) * 0.5;
+              		double predicted_value = data1[i] + data1[j] - (data1[i] * data1[j]);
+             		data2[i][j] = predicted_value / data1[z];}}}
+    	return 0;}
+   
 
 
 Main code
