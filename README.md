@@ -110,8 +110,6 @@ Single simulation: Amplitude and smooth spline of each protein are calculated vi
     		temp = fabs(max - min);
    		return temp;}
 
- 
-
 	Smooth spline is estimated at a constant period (splinterval) without stochastic effects (spline in functions.cpp). 
 
  		double spline(double *data1, double *avg, double *std, double *tm, int size, int interval){    
