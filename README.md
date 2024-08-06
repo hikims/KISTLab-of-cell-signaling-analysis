@@ -128,9 +128,9 @@ Single simulation: Amplitude and smooth spline of each protein are calculated vi
     	return 0;}   
 
 
-Multiple simulations: Root mean square error (RMSE), inhibition, coefficient variation (CV), and bliss index of each protein are calculated via multiple simulations (simul_time=1000). 
+Multiple simulations: Root mean square error, coefficient variation, and bliss index of each protein are calculated via multiple simulations (simul_time=1000). 
 
-	The RMSE (RMSE in functions.cpp) is to find suitable parameters set based on a specific parameter. 
+	The root mean square error (RMSE in functions.cpp) is to find suitable parameters set based on a specific parameter. 
 
  		double RMSE(double *data1, double mean, int size){
     
@@ -140,7 +140,42 @@ Multiple simulations: Root mean square error (RMSE), inhibition, coefficient var
     		double rmse = sqrt(temp);
     	return rmse;}
 
-	CV (data_sort, interCV, CV in functions.cpp) is estimated as the mean (MEAN in functions.cpp) and standard deviation (VAR in functions.cpp) of multiple simulations to compare relative variation at a constant period (cvlinterval). 
+  
+	Coefficient variation (CV in functions.cpp) is estimated as the mean (MEAN in functions.cpp) and 
+ 	standard deviation (VAR in functions.cpp) of multiple simulations with stochastic effects. 
+
+		double CV(double **data, double* final_avg, double* std, int size, int col){        
+   			double avg[size];
+    		for(int i = 0; i < size; i++){
+        		avg[i] = 0.0;
+        			for (int j = 0; j < col; j++){avg[i] += data[i][j] / col;}}
+   			*final_avg = 0.0;
+    			for(int i = 0; i < size; i++){*final_avg += avg[i] / size;}
+    		*std = 0.0;
+    		double temp_std1 = 0.0;
+    		double temp_std2 = 0.0;
+    		for (int i = 0; i < size; i++){
+        		temp_std1 = avg[i] - *final_avg;
+        		temp_std2 += pow(temp_std1, 2) / size;}
+    		*std = sqrt(temp_std2) / *final_avg;
+    	return 0;}
+  
+	For interval coefficient variation (interCV in functions.cpp) is calculated through the data array (data_sort in functions.cpp)  
+ 	with a constant period (cvlinterval). We set period as 1000 in this study.
+
+  		double interCV(double *data1, double *avg, double *std, double *temp_std1, double *temp_std2, 
+   		double *tm, int size, int interval){    
+    		for(int z = 0; z < size; z++){
+        		int st_point = z * interval;
+        		int end_point = (z + 1) * interval;
+        			for(int i = st_point; i < end_point; i++){avg[z] += data1[i] / interval;} 
+       				for(int i = st_point; i < end_point; i++){   
+            			temp_std1[z] = data1[i] - avg[z];
+            			temp_std2[z] += pow(temp_std1[z], 2) / interval;}
+        		std[z] = sqrt(temp_std2[z]) / avg[z];
+        		tm[z] = st_point;}
+    	return 0;}   
+
 
 	Since the bliss index is calculated via inhibitors, the user has to choose the number of inhibitors (p). A protein is set as zero at a specific simulation time and estimates the mean and standard deviation for before and after inhibition while multiple simulations. The reduction rate (reduction in functions.cpp) is calculated using the estimated mean and standard deviation and makes a file for each inhibitor. The user has to be careful about the order of inhibitors. This open-source considers the order from single to combination inhibitor. After making a file of inhibition, the bliss index can be calculated using the file (bliss in functions.cpp).
 
