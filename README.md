@@ -52,15 +52,29 @@ Boolean operator
 
 	When the user calculates the Boolean value of each protein, use the get_min_max function in Boolean.cpp. 
 
-	Our open source considers a maximum of five weights for each protein, and they have to be inserted sequentially. 
+	In this study, our open source considers a maximum of four weights for each protein, 
+ 	and they have to be inserted sequentially. 
 
-	For the upstream value, the user can use the get_input function and the protein and its boolean value has to be inserted crosswise. 
+ 		double get_input(int _size, double p_num1, double b_num1, double p_num2, double b_num2, double p_num3, 
+  		double b_num3, double p_num4, double b_num4){
+    
+    		double pro[4] = {p_num1, p_num2, p_num3, p_num4};
+   		 	double wei[4] = {b_num1, b_num2, b_num3, b_num4};
+   	 		double temp = 0.0;
+    		for (int i = 0; i < _size; i++){temp += pro[i] * wei[i];}
+    	return temp;}
+
+    For the upstream value, the user can use the get_input function and the protein and its boolean value has to be inserted crosswise. 
 
 	For example, if one protein is activated by two proteins, the upstream value is calculated:
 
-	input = get_input(2, protein1, boolean_value1, protein2, boolean_value2)
+		input = get_input(2, protein1, boolean_value1, protein2, boolean_value2)
 
 	Finally, using the Boolean value and input, the activation of protein can be computed by first_Boolean_gate, T, and protein_calc functions.
+
+
+
+
 
 Calculation Functions
 
