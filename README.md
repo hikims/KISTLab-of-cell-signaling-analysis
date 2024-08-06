@@ -96,6 +96,9 @@ Boolean operator
 
 Calculation Functions
 
+In this study, the calculation functions used for data analysis are included, 
+and users can individually modify or supplement the functions as needed for their analysis.
+
 Single simulation: Amplitude and smooth spline of each protein are calculated via a single simulation (simul_time=1). 
 	
 	Amplitude is estimated as the difference between the maximum and minimum of protein’s activation 
@@ -128,7 +131,7 @@ Single simulation: Amplitude and smooth spline of each protein are calculated vi
     	return 0;}   
 
 
-Multiple simulations: Root mean square error, coefficient variation, and bliss index of each protein are calculated via multiple simulations (simul_time=1000). 
+Multiple simulations: Root mean square error, coefficient variation, reduction rate, and bliss index of each protein are calculated via multiple simulations (simul_time=1000). 
 
 	The root mean square error (RMSE in functions.cpp) is to find suitable parameters set based on a specific parameter. 
 
