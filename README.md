@@ -128,7 +128,7 @@ Single simulation: Amplitude and smooth spline of each protein are calculated vi
     	return 0;}   
 
 
-Multiple simulations: Each protein’s root mean square error (RMSE), coefficient variation (CV), and bliss index are calculated via multiple simulations (simul_time=1000). 
+Multiple simulations: Root mean square error (RMSE), coefficient variation (CV), and bliss index of each protein are calculated via multiple simulations (simul_time=1000). 
 
 	The RMSE (RMSE in functions.cpp) is to find suitable parameters set based on a specific parameter. 
 
