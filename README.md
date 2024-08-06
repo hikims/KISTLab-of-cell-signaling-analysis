@@ -5,7 +5,8 @@ These files are open-source for computing cell signaling pathways and are made u
 
 Compiling
 
-	In Linux and macOS, the exec.sh can compile the main.cpp executables, as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
+	In Linux and macOS, the exec.sh can compile the main.cpp executables, 
+ 	as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
 
 	chmod +x exec.sh
 
