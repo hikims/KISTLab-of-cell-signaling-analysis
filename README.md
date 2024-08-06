@@ -96,13 +96,39 @@ Boolean operator
 
 Calculation Functions
 
-Single simulation: Each protein's amplitude, smooth spline, and trajectory are calculated via a single simulation (simul_time=1). 
+Single simulation: Amplitude and smooth spline of each protein are calculated via a single simulation (simul_time=1). 
 	
-	Amplitude is estimated as the difference between the maximum and minimum of protein’s activation from a specific start point to calculation time without stochastic effects (amplitude in functions.cpp).
+	Amplitude is estimated as the difference between the maximum and minimum of protein’s activation 
+ 	from a specific time point (startsize, endsize) without stochastic effects (amplitude in functions.cpp).
+  
+		double amplitude(double *data, double max, double min, int startsize, int endsize){		
+    		
+      		double temp = 0.0;
+    		for(int i = startsize; i < endsize; i++){
+        		if(data[i] > max){max = data[i];}
+        		if(data[i] < min){min = data[i];}} 
+    		temp = fabs(max - min);
+   		return temp;}
 
-	Smooth spline is estimated at a constant period (splinterval). 
+ 
 
-	A trajectory can be imaged by the output file.
+	Smooth spline is estimated at a constant period (splinterval) without stochastic effects (spline in functions.cpp). 
+
+ 		double spline(double *data1, double *avg, double *std, double *tm, int size, int interval){    
+    		for(int z = 0; z < size; z++){
+        		int st_point = z * interval;
+        		int end_point = (z + 1) * interval;
+        			for(int i = st_point; i < end_point; i++){avg[z] += data1[i] / interval;} 
+
+        		double temp_std1 = 0.0;
+        		double temp_std2 = 0.0;
+        			for(int i = st_point; i < end_point; i++){   
+            		temp_std1 = data1[i] - avg[z];
+            		temp_std2 += pow(temp_std1, 2) / interval;}
+       		std[z] = sqrt(temp_std2);
+        		tm[z] = st_point;}
+    	return 0;}   
+
 
 Multiple simulations: Each protein’s root mean square error (RMSE), coefficient variation (CV), and bliss index are calculated via multiple simulations (simul_time=1000). 
 
