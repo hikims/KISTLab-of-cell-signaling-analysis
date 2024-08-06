@@ -19,17 +19,31 @@ use cat filename.txt | xargs -L 1 ./a.out in exec.sh. (Some examples are written
 
 Parameters
 
-	Np: the number of proteins in the signaling pathway.
-	Nw: the number of weights in the signaling pathway.
-	rb: the parameter of the Waller-Kraft operator.
-	p: the number of inhibitors.
-	taneps: the parameter of the hyper tangent function.
-	dt: time shift.
-	iter: calculation time.
-	cut: a specific interval of simulation time.
-	simul_time: simulation time. 
-	cvinterval: coefficient variation period on simulation time. 
-	spinterval: smooth spline period on calculation time. 
+	Np: the number of proteins in the signaling pathway
+	Nw: the number of weights in the signaling pathway
+	rb: the parameter of the Waller-Kraft operator
+	p: the number of inhibitors
+	taneps: the parameter of the hyper tangent function
+	dt: time shift
+	iter: calculation time
+	cut: a specific interval of simulation time
+	simul_time: simulation time
+	cvinterval: coefficient variation period on simulation time
+	spinterval: smooth spline period on calculation time 
+
+ 	In this study, we set arbitrary parameters (parameters.h) as follow:
+    		
+      	#define Np (16)
+		#define Nw (22)
+		#define rb (0.75)
+		#define p (4)
+		#define taneps  (1.0)
+		#define dt (1.0)
+		#define iter (100000)
+		#define cut (1)
+		#define simul_time  (1)
+		#define cvinterval (1000)
+		#define spinterval (1000)
 
 The upstream (k_u), downstream (k_d), and stochastic rate (σ) imply the control parameters of the protein’s activation, and they are indicated in the main script (main.cpp).
 
