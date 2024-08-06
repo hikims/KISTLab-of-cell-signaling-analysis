@@ -64,15 +64,33 @@ Boolean operator
     		for (int i = 0; i < _size; i++){temp += pro[i] * wei[i];}
     	return temp;}
 
-    For the upstream value, the user can use the get_input function and the protein and its boolean value has to be inserted crosswise. 
-
-	For example, if one protein is activated by two proteins, the upstream value is calculated:
+    For the upstream value, the user can use the get_input function and the protein and 
+    its boolean value has to be inserted crosswise. 
+    For example, if one protein is activated by two proteins, the upstream value is calculated:
 
 		input = get_input(2, protein1, boolean_value1, protein2, boolean_value2)
 
-	Finally, using the Boolean value and input, the activation of protein can be computed by first_Boolean_gate, T, and protein_calc functions.
+	Finally, using the Boolean value and input, the activation of protein can be computed by first_Boolean_gate, T, 
+ 	and protein_calc functions.
 
+		void first_Boolean_gate(double *boolean, double *output, double *new_protein, double protein, double para1, 
+  		double para2, double para3, double z, double input, int size, double out_w1, double out_w2, double out_w3, 
+  		double out_w4, double out_w5){
+   
+   			double min = 0.0, max = 0.0;
+			get_min_max(size, &min, &max, out_w1, out_w2, out_w3, out_w4, out_w5);
+ 			# get_min_max function is to simply find the maximum and minimim of weights (in Boolean.cpp).
 
+    		double boo = rb * min + (1.0 - rb) * max;
+    		*boolean = boo;
+    		*output = boo * protein;
+    		*new_protein = protein_calc(protein, input, *output, z, para1, para2, para3);}
+
+		double T(double x){return tanh( x / taneps);}
+
+		double protein_calc(double a, double b, double c, double w, double para1, double para2, double para3){
+    		return a + T(para1 * b - para2 * c * a) * dt + a * para3 * w;
+      		# This function is based on Euler-Maruyama numerical method.}
 
 
 
