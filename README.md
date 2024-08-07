@@ -1,19 +1,18 @@
 # KISTLab-of-cell-signaling-analysis
 README
 
-These files are open-source for computing cell signaling pathways and are made up of C/C++.
+These files are open-source for computing cell signaling pathways and are made up of C/C++. In this README, we explain mainly important functions, parameters, and main alogorithm. More detail information for this open-source refers to each cpp files. 
 
 Compiling
 
-In Linux and macOS, the exec.sh can compile the main.cpp executables, as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
+In Linux and macOS, the exec.sh can compile the main.cpp executables, as well as Boolean.cpp, functions.cpp, and initial_data.cpp. 
 
+	g++ -std=c++11 main.cpp initial_data.cpp Boolean.cpp functions.cpp -lm
+	./a.out 
 	chmod +x exec.sh
-
 	./exec.sh
 
-According to the user computer system, -std=c++11 in exec.sh can be changeable.
-If the user wants to calculate variation by a specific parameter, 
-use cat filename.txt | xargs -L 1 ./a.out in exec.sh. (Some examples are written in exec.sh.)
+According to the user computer system, -std=c++11 in exec.sh can be changeable. If the user wants to calculate variation by a specific parameter, use cat filename.txt | xargs -L 1 ./a.out in exec.sh. (Some examples are written in exec.sh.)
 
 
 Parameters
@@ -200,6 +199,12 @@ Since the bliss index (bliss in functions.cpp) is calculated via inhibitors, the
 
 Main code
 
+Note that hpp files of each cpp files have to be included in main.cpp.
+
+ 		#include "Boolean.hpp"
+		#include "initial_data.hpp"
+		#include "functions.hpp"
+ 
 It needs to set initial data using initialdata function (initial_data.cpp). In this study, two receptor proteins are set as 1, others are set as 0. All weight is set randomly following uniform distribution.
 
 		initialdata(protein, Np, pre_weight, Nw); # main.cpp
