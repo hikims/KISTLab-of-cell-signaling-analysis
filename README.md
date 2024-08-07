@@ -5,8 +5,7 @@ These files are open-source for computing cell signaling pathways and are made u
 
 Compiling
 
-	In Linux and macOS, the exec.sh can compile the main.cpp executables, 
- 	as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
+In Linux and macOS, the exec.sh can compile the main.cpp executables, as well as Boolean.cpp, functions.cpp, and initial_data.cpp with
 
 	chmod +x exec.sh
 
@@ -31,7 +30,7 @@ Parameters
 	cvinterval: coefficient variation period on simulation time
 	spinterval: smooth spline period on calculation time 
 
- 	In this study, we set arbitrary parameters (parameters.h) as follow:
+In this study, we set arbitrary parameters (parameters.h) as follow:
     		
       	#define Np (16)
 		#define Nw (22)
@@ -50,10 +49,9 @@ The upstream (k_u), downstream (k_d), and stochastic rate (σ) imply the control
 
 Boolean operator
 
-	When the user calculates the Boolean value of each protein, use the get_min_max function in Boolean.cpp. 
+When the user calculates the Boolean value of each protein, use the get_min_max function in Boolean.cpp. 
 
-	In this study, our open source considers a maximum of four weights for each protein, 
- 	and they have to be inserted sequentially. 
+In this study, our open source considers a maximum of four weights for each protein, and they have to be inserted sequentially. 
 
  		double get_input(int _size, double p_num1, double b_num1, double p_num2, double b_num2, double p_num3, 
   		double b_num3, double p_num4, double b_num4){
@@ -64,14 +62,12 @@ Boolean operator
     		for (int i = 0; i < _size; i++){temp += pro[i] * wei[i];}
     	return temp;}
 
-    For the upstream value, the user can use the get_input function and the protein and 
-    its boolean value has to be inserted crosswise. 
-    For example, if one protein is activated by two proteins, the upstream value is calculated:
+For the upstream value, the user can use the get_input function and the protein and its boolean value has to be inserted crosswise. 
+For example, if one protein is activated by two proteins, the upstream value is calculated:
 
 		input = get_input(2, protein1, boolean_value1, protein2, boolean_value2)
 
-	Finally, using the Boolean value and input, the activation of protein can be computed by first_Boolean_gate, T, 
- 	and protein_calc functions.
+Finally, using the Boolean value and input, the activation of protein can be computed by first_Boolean_gate, T, and protein_calc functions.
 
 		void first_Boolean_gate(double *boolean, double *output, double *new_protein, double protein, double para1, 
   		double para2, double para3, double z, double input, int size, double out_w1, double out_w2, double out_w3, 
@@ -96,13 +92,11 @@ Boolean operator
 
 Calculation Functions
 
-In this study, the calculation functions used for data analysis are included, 
-and users can individually modify or supplement the functions as needed for their analysis.
+In this study, the calculation functions used for data analysis are included, and users can individually modify or supplement the functions as needed for their analysis.
 
 Single simulation: Amplitude and smooth spline of each protein are calculated via a single simulation (simul_time=1). 
-	
-	Amplitude is estimated as the difference between the maximum and minimum of protein’s activation 
- 	from a specific time point (startsize, endsize) without stochastic effects (amplitude in functions.cpp).
+
+Amplitude is estimated as the difference between the maximum and minimum of protein’s activation from a specific time point (startsize, endsize) without stochastic effects (amplitude in functions.cpp).
   
 		double amplitude(double *data, double max, double min, int startsize, int endsize){		
     		
@@ -113,7 +107,7 @@ Single simulation: Amplitude and smooth spline of each protein are calculated vi
     		temp = fabs(max - min);
    		return temp;}
 
-	Smooth spline is estimated at a constant period (splinterval) without stochastic effects (spline in functions.cpp). 
+Smooth spline is estimated at a constant period (splinterval) without stochastic effects (spline in functions.cpp). 
 
  		double spline(double *data1, double *avg, double *std, double *tm, int size, int interval){    
     		for(int z = 0; z < size; z++){
@@ -144,8 +138,7 @@ Multiple simulations: Root mean square error, coefficient variation, reduction r
     	return rmse;}
 
   
-	Coefficient variation (CV in functions.cpp) is estimated as the mean (MEAN in functions.cpp) and 
- 	standard deviation (VAR in functions.cpp) of multiple simulations with stochastic effects. 
+Coefficient variation (CV in functions.cpp) is estimated as the mean (MEAN in functions.cpp) and standard deviation (VAR in functions.cpp) of multiple simulations with stochastic effects. 
 
 		double CV(double **data, double* final_avg, double* std, int size, int col){        
    			double avg[size];
@@ -163,8 +156,7 @@ Multiple simulations: Root mean square error, coefficient variation, reduction r
     		*std = sqrt(temp_std2) / *final_avg;
     	return 0;}
   
-	For interval coefficient variation (interCV in functions.cpp) is calculated through the data array (data_sort in functions.cpp)  
- 	with a constant period (cvlinterval). We set period as 1000 in this study.
+For interval coefficient variation (interCV in functions.cpp) is calculated through the data array (data_sort in functions.cpp) with a constant period (cvlinterval). We set period as 1000 in this study.
 
   		double interCV(double *data1, double *avg, double *std, double *temp_std1, double *temp_std2, 
    		double *tm, int size, int interval){    
@@ -179,11 +171,8 @@ Multiple simulations: Root mean square error, coefficient variation, reduction r
         		tm[z] = st_point;}
     	return 0;}   
 
-   	The reduction rate (reduction in functions.cpp) is calculated using the estimated mean (MEAN in functions.cpp) and 
-    standard deviation (VAR in functions.cpp) and makes a file for each inhibitor. 
-    The user has to be careful about the order of inhibitors. 
-    This open-source considers the order from single to combination inhibitor. 
-	After making a file of inhibition, the bliss index can be calculated using the file (bliss in functions.cpp).
+The reduction rate (reduction in functions.cpp) is calculated using the estimated mean (MEAN in functions.cpp) and standard deviation (VAR in functions.cpp) and makes a file for each inhibitor. 
+The user has to be careful about the order of inhibitors. This open-source considers the order from single to combination inhibitor. After making a file of inhibition, the bliss index can be calculated using the file (bliss in functions.cpp).
 
        	double reduction(double *data1, double *data2, int size){    
     		double diff_avg[size];
@@ -195,9 +184,7 @@ Multiple simulations: Root mean square error, coefficient variation, reduction r
     		double temp = 1.0 - (avg2 / avg1);
    	 	return temp;} 
 
-	Since the bliss index (bliss in functions.cpp) is calculated via inhibitors, the user has to choose the number of inhibitors (p). 
- 	A protein is set as zero at a specific simulation time and estimates the mean (MEAN in functions.cpp) and 
-  	standard deviation (VAR in functions.cpp) for before and after inhibition while multiple simulations. 
+Since the bliss index (bliss in functions.cpp) is calculated via inhibitors, the user has to choose the number of inhibitors (p). A protein is set as zero at a specific simulation time and estimates the mean (MEAN in functions.cpp) and standard deviation (VAR in functions.cpp) for before and after inhibition while multiple simulations. 
 
    		double bliss(double **data2, double *data1, int pro_size){       
     		for(int i = 0; i < pro_size; i++){
@@ -213,7 +200,21 @@ Multiple simulations: Root mean square error, coefficient variation, reduction r
 
 Main code
 
-	Protein has to be set individually because of different weights, upstream, and downstream. 
+It needs to set initial data using initialdata function (initial_data.cpp). In this study, two receptor proteins are set as 1, others are set as 0. All weight is set randomly following uniform distribution.
+
+		initialdata(protein, Np, pre_weight, Nw); # main.cpp
+     	
+      	void initialdata(double *protein, int protein_col, double *pre_weight, int pre_weight_num){
+    	/* protein */
+    	for (int j = 0; j < protein_col; j++){
+        	if (j < 2){protein[j] = 1.0;} # set two receptor proteins
+        	else{protein[j] = 0.0;}}
+    	/* weight */
+    	for (int i = 0; i < pre_weight_num; i++){  
+        	pre_weight[i] = ((double)rand() / RAND_MAX);}}
+
+ 
+Protein has to be set individually because of different weights, upstream, and downstream. 
 
 	The proteins including a negative feedback loop indicate the phi (=-1) index in main.cpp. 
 
