@@ -214,16 +214,28 @@ It needs to set initial data using initialdata function (initial_data.cpp). In t
         	pre_weight[i] = ((double)rand() / RAND_MAX);}}
 
  
-Protein has to be set individually because of different weights, upstream, and downstream. 
+Protein has to be set individually because of different weights, upstream, and downstream. In this study, protein 5 has two upstream (protein 2 and 15), and their boolean values are saved in boolean_boo[]. The upstream (input[]) of protein 5 is calculated through get_input function. The activation of protein 5 (new_protein[]) and its downstream (output[]) are calculated through first_Boolean_gate function. The protein 15 including a negative feedback loop indicate the phi (=-1) index. Stochastic effect is generated randomly through gaussianRandom function (main.cpp).
 
-	The proteins including a negative feedback loop indicate the phi (=-1) index in main.cpp. 
+	    double wiener = gaussianRandom(0, dt);
+        input[2] = get_input(1, protein[0], boolean_boo[0]);
+        first_Boolean_gate(&(boolean_boo[2]), &(output[2]), &(new_protein[2]), protein[2], ku, kd, sigma, 
+	    wiener, input[2], 1, pre_weight[2]);
+        input[15] = get_input(1, protein[12], boolean_boo[12]);
+        first_Boolean_gate(&(boolean_boo[15]), &(output[15]), &(new_protein[15]), protein[15], ku, kd, sigma, 
+	    wiener, input[15], 2, pre_weight[20], pre_weight[21]);
+        input[i] = get_input(2, protein[2], boolean_boo[2], protein[15], phi * boolean_boo[15]);
+        first_Boolean_gate(&(boolean_boo[4]), &(output[i]), &(new_protein[i]), protein[i], ku, kd, sigma, 
+	    wiener, input[i], 1, pre_weight[6]);
+			
 
-	The inhibi_point in main.cpp can be changeable by the user (It is set as half of the calculation time in open-source). 
+	
 
-	The num implies the order of inhibition for each inhibitor. 
+The inhibi_point in main.cpp can be changeable by the user (It is set as half of the calculation time in open-source). 
 
-	Each inhibition has to be compiled individually to make a file. 
+The num implies the order of inhibition for each inhibitor. 
 
-	When the user wants to do multiple stimulations, set 1 to the receptor protein, in contrast, set zero to the receptor protein for single stimulation.
+Each inhibition has to be compiled individually to make a file. 
 
-	Non-negative feedback in main.cpp represents the case without a negative feedback loop. 
+When the user wants to do multiple stimulations, set 1 to the receptor protein, in contrast, set zero to the receptor protein for single stimulation.
+
+Non-negative feedback in main.cpp represents the case without a negative feedback loop. 
