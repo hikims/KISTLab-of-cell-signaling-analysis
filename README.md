@@ -2,6 +2,7 @@
 README
 
 These files are open-source for computing cell signaling pathways and are made up of C/C++. In this README, we explain mainly important functions, parameters, and main alogorithm. More detail information for this open-source refers to each cpp files. 
+This project is licensed under the terms of the MIT license.
 
 Compiling
 
